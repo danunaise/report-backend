@@ -11,9 +11,12 @@ datasource db {
 }
 
 model Report {
-  reportId Int  @id @default(autoincrement())
-  roomId   Int
-  title    String
-  description String
-  department String
+  reportId      Int  @id @default(autoincrement())
+  roomId        Int
+  title         String
+  description   String
+  department    String
+  status        String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }

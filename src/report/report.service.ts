@@ -13,6 +13,7 @@ export class ReportService {
         roomId: roomId,
         title: title,
         description: description,
+        status: 'pending',
         department: department,
       },
     });
@@ -20,7 +21,8 @@ export class ReportService {
   }
 
   findAll() {
-    return `This action returns all report`;
+    const reports = this.prisma.report.findMany();
+    return reports;
   }
 
   findOne(id: number) {
