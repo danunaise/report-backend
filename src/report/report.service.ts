@@ -14,6 +14,7 @@ export class ReportService {
         title: title,
         description: description,
         status: 'pending',
+        fixedBy: '-',
         department: department,
       },
     });
