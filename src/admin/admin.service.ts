@@ -7,7 +7,8 @@ import { PrismaService } from 'prisma/prisma.service';
 export class AdminService {
   constructor(private prisma: PrismaService) {}
   createUser(createAdminDto: CreateAdminDto) {
-    const { firstName, lastName, department, role, email, username, password } = createAdminDto;
+    const { firstName, lastName, department, role, email, username, password } =
+      createAdminDto;
     const addUser = this.prisma.users.create({
       data: {
         firstName,
