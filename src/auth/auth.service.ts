@@ -1,16 +1,16 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'prisma/prisma.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
   constructor(private Prisma: PrismaService, private jwtService: JwtService) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.Prisma.users.findUnique({
-      where: { username },
-    });
-    if (user && user.password === pass) {
+    const user = await this.Prisma.users.findUnique({ where: { username } }); // ใช้ Prisma Client เพื่อค้นหาผู้ใช้จากฐานข้อมูล
+    //ถอดรหัสผ่านที่รับเข้ามาและเปรียบเทียบกับรหัสผ่านที่เก็บในฐานข้อมูล
+    if (user && (await bcrypt.compare(pass, user.password))) {
       const { password, ...result } = user;
       return result;
     }
