@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'prisma/prisma.service';
 
@@ -22,5 +22,18 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  async getProfile(userId: number) {
+    const user = await this.Prisma.users.findUnique({ where: { userId } });
+
+    if (!user) {
+      throw new HttpException('ไม่มีผู้ใช้นี้ในระบบ', HttpStatus.BAD_REQUEST);
+    }
+
+    const { password, ...userProfile } = user; //ไม่ให้แสดงอะไรบ้างในข้อมูลผู้ใช้
+    //userProfile.roles = roles; // Add roles data to userProfile if needed
+
+    return userProfile;
   }
 }
